@@ -1,9 +1,22 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, fireEvent, screen } from '@testing-library/react';
 import App from './App';
 
-test('renders learn react link', () => {
-  const { getByText } = render(<App />);
-  const linkElement = getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
-});
+describe("App tests", () => {
+  test("renders correctly", () => {
+    render(<App />);
+    expect(screen.queryByText("one")).toBe(null)
+  })
+  test("adds a todo", () => {
+    render(<App />);
+    fireEvent.change(screen.getByPlaceholderText("to do"),{
+      target: {
+        value: "hola"
+      }
+    })
+    
+    fireEvent.click(screen.getByText("Add"))
+
+    expect(screen.getByText("hola")).toBeDefined();
+  })
+})
